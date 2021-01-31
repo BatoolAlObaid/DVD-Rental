@@ -37,3 +37,21 @@ JOIN store st
 ON s.staff_id = st.manager_staff_id
 GROUP BY 1,2
 ORDER BY 1;
+
+/*Query 4- query used for fourth insight*/
+WITH t1 AS (SELECT first_name || ' '|| last_name AS fullname, SUM(amount)
+FROM payment p
+JOIN customer c
+ON p.customer_id = c.customer_id
+Group By 1
+Order by 2 DESC
+LIMIT 10)
+
+SELECT first_name || ' ' || last_name AS fullname, SUM(amount) AS pay_amount
+FROM payment p
+JOIN customer c
+ON p.customer_id = c.customer_id
+WHERE (DATE_TRUNC('month', p.payment_date) BETWEEN '2007-01-01' AND '2007-12-01')
+AND (first_name || ' ' || last_name IN (SELECT fullname From t1))
+Group by 1
+ORDER BY 1;
