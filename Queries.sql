@@ -27,3 +27,13 @@ FROM (
 ) sub
 GROUP BY 1
 ORDER BY 1;
+
+/*Query 3- query used for third insight*/
+SELECT DATE_TRUNC('month', r.rental_date) AS rental_date, st.store_id, COUNT(r.rental_id) AS Count_rentals
+FROM rental r
+JOIN staff s
+ON r.staff_id = s.staff_id
+JOIN store st
+ON s.staff_id = st.manager_staff_id
+GROUP BY 1,2
+ORDER BY 1;
